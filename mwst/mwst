@@ -1,0 +1,63 @@
+#!/usr/local/bin/python3
+
+import sys
+
+def read_data(input_filename):
+    input_file = open(input_filename, 'r')
+    n = int(input_file.readline().strip())
+    m = int(input_file.readline().strip())
+    edges = []
+    for i in range(m):
+        start, end, weight = input_file.readline().strip().split()
+        # weight, start, end, label
+        edges.append( (float(weight), int(start), int(end), i + 1) )
+    input_file.close()
+    return (n, edges)
+    
+def init(parent):
+    for i in range(len(parent)):
+        parent[i] = i
+
+def merge(parent, x, y):
+    x = find(parent, x)
+    y = find(parent, y)
+    parent[x] = y
+
+def is_same(parent, x, y):
+    x = find(parent, x)
+    y = find(parent, y)
+    return x == y
+
+def find(parent, x):
+    if parent[x] == x:
+        return x
+    parent[x] = find(parent, parent[x])
+    return parent[x]
+
+def kruskal(n, edges, output_filename):
+    output_file = open(output_filename, 'w')
+    edges.sort()
+    parent = [0] * (n + 1)
+    init(parent)
+    total = 0
+    for edge in edges:
+        weight, start, end, label = edge
+        if is_same(parent, start, end):
+            continue
+        merge(parent, start, end)
+        total += weight
+        output_file.write('%4d: (%d, %d) %.1f\n' % (label, start, end, weight))
+    output_file.write('Total Weight = %.2f\n' % total)
+    output_file.close()
+
+
+if __name__ == "__main__":
+    input_filename = sys.argv[1]
+    output_filename = sys.argv[2]
+
+    n, edges = read_data(input_filename)
+    kruskal(n, edges, output_filename)
+
+
+    
+    
