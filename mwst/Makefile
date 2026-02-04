@@ -3,8 +3,8 @@ CFLAGS = -Wall -Wextra -O2
 
 all: mwst
 
-mwst: mwst.C
-	$(CC) $(CFLAGS) -o mwst mwst.C
+mwst: mwst.c
+	$(CC) $(CFLAGS) -o mwst mwst.c
 
 clean:
 	rm -f mwst
