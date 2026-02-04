@@ -57,7 +57,3 @@ if __name__ == "__main__":
 
     n, edges = read_data(input_filename)
     kruskal(n, edges, output_filename)
-
-
-    
-    
